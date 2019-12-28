@@ -6,6 +6,7 @@ import Head from 'next/head';
 import { Layout } from 'antd';
 import { MainFooter } from './MainFooter';
 import styled from 'styled-components';
+import { MainNavbar } from '../MainNavbar';
 
 const { Content } = Layout;
 
@@ -70,6 +71,7 @@ export class MainLayout extends Component<Props> {
         <GlobalStyle />
         <StyledBody>
           <Layout>
+            <MainNavbar />
             <Content>{children}</Content>
             <MainFooter />
           </Layout>
