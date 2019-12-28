@@ -14,6 +14,7 @@
   "dependencies": {
     "@zeit/next-css": "^1.0.1",
     "antd": "^3.26.4",
+    "dotenv": "^8.2.0",
     "next": "^9.1.6",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
