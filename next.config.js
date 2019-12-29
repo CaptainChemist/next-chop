@@ -9,6 +9,13 @@ const {
   CDNBASE,
   GRAPHCMSID,
   GRAPHCMSURL,
+  domain,
+  clientId,
+  clientSecret,
+  scope,
+  redirectUri,
+  postLogoutRedirectUri,
+  cookieSecret,
 } = process.env;
 
 module.exports = withCSS({
@@ -22,5 +29,16 @@ module.exports = withCSS({
       GRAPHCMSID,
       GRAPHCMSURL,
     },
+  },
+  serverRuntimeConfig: {
+    auth: {
+      domain,
+      clientId,
+      clientSecret,
+      scope,
+      redirectUri,
+      postLogoutRedirectUri,
+    },
+    cookieSecret,
   },
 });
