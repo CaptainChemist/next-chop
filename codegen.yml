@@ -1,0 +1,8 @@
+overwrite: true
+schema: '${GRAPHCMSURL}/${GRAPHCMSID}/${BRANCH}'
+documents: graphql/**/*.ts
+generates:
+  generated/apollo-components.tsx:
+    plugins:
+      - 'typescript'
+      - 'typescript-operations'
