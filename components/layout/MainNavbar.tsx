@@ -1,6 +1,7 @@
 import { Layout, Menu } from 'antd';
 import Link from 'next/link';
 import styled from 'styled-components';
+import { useFetchUser } from '../../utils/user';
 
 const { Header } = Layout;
 
@@ -62,23 +63,46 @@ const Title = styled.div`
         `}
 `;
 
-export const MainNavbar = () => (
-  <StyledHeader>
-    <TitleContainer>
-      <Title>
-        <img src="/logo.svg" alt="Next Chop Logo" />
-        <div>
-          <h2>The Next Chop</h2>
-          <p>A recipe discovery app powered by Next.js.</p>
-        </div>
-      </Title>
-    </TitleContainer>
-    <StyledMenu theme="light" mode="horizontal" style={{ lineHeight: '64px' }}>
-      <Menu.Item key="/">
-        <Link href="/">
-          <a>Home</a>
-        </Link>
-      </Menu.Item>
-    </StyledMenu>
-  </StyledHeader>
-);
+export const MainNavbar = () => {
+  const { user, loading } = useFetchUser();
+
+  return (
+    <StyledHeader>
+      <TitleContainer>
+        <Title>
+          <img src="/logo.svg" alt="Next Chop Logo" />
+          <div>
+            <h2>The Next Chop</h2>
+            <p>A recipe discovery app powered by Next.js.</p>
+          </div>
+        </Title>
+      </TitleContainer>
+      <StyledMenu
+        theme="light"
+        mode="horizontal"
+        style={{ lineHeight: '64px' }}
+      >
+        <Menu.Item key="/">
+          <Link href="/">
+            <a>Home</a>
+          </Link>
+        </Menu.Item>
+        {user && !loading
+          ? [
+              <Menu.Item key="/api/logout">
+                <Link href="/api/logout">
+                  <a>Logout</a>
+                </Link>
+              </Menu.Item>,
+            ]
+          : [
+              <Menu.Item key="/api/login">
+                <Link href="/api/login">
+                  <a>Login</a>
+                </Link>
+              </Menu.Item>,
+            ]}
+      </StyledMenu>
+    </StyledHeader>
+  );
+};

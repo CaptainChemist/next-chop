@@ -6,7 +6,7 @@ import Head from 'next/head';
 import { Layout } from 'antd';
 import { MainFooter } from './MainFooter';
 import styled from 'styled-components';
-import { MainNavbar } from '../MainNavbar';
+import { MainNavbar } from './MainNavbar';
 
 const { Content } = Layout;
 
