@@ -27,10 +27,31 @@ export const submitForm = (initialValues, callback) => {
     });
   };
 
+  const handleAddIngredient = event => {
+    event.persist();
+    setInputs(inputs => {
+      const sortedIngredients = _.sortBy(inputs.ingredients, ['key']);
+      const key =
+        sortedIngredients.length > 0
+          ? sortedIngredients[sortedIngredients.length - 1].key + 1
+          : 0;
+      return {
+        ...inputs,
+        ingredients: _.concat(inputs.ingredients, [
+          { key, amount: '', unit: '-', type: '' },
+        ]),
+      };
+    });
+  };
+
+  const handleDeleteIngredient = event => {};
+
   return {
     inputs,
     handleInputChange,
     handleDropdownChange,
+    handleAddIngredient,
+    handleDeleteIngredient,
     handleSubmit,
   };
 };

@@ -5,6 +5,7 @@ import {
   GenerateTextInput,
   GenerateDropdown,
 } from './GenerateFields';
+import { GenerateIngredients } from './GenerateIngredients';
 
 export const CreateRecipe = () => {
   const initiateCreateRecipe = () => {
@@ -16,6 +17,8 @@ export const CreateRecipe = () => {
     inputs,
     handleInputChange,
     handleDropdownChange,
+    handleAddIngredient,
+    handleDeleteIngredient,
     handleSubmit,
   } = submitForm(
     {
@@ -23,6 +26,7 @@ export const CreateRecipe = () => {
       description: '',
       content: '',
       status: 'DRAFT',
+      ingredients: [],
     },
     initiateCreateRecipe,
   );
@@ -41,6 +45,14 @@ export const CreateRecipe = () => {
       <GenerateTextInput
         name="content"
         value={inputs.content}
+        handleInputChange={handleInputChange}
+      />
+      <GenerateIngredients
+        names={['amount', 'unit', 'type']}
+        values={inputs.ingredients}
+        handleAddIngredient={handleAddIngredient}
+        handleDeleteIngredient={handleDeleteIngredient}
+        handleDropdownChange={handleDropdownChange}
         handleInputChange={handleInputChange}
       />
       <Row>
