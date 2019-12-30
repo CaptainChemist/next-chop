@@ -44,7 +44,19 @@ export const submitForm = (initialValues, callback) => {
     });
   };
 
-  const handleDeleteIngredient = event => {};
+  const handleDeleteIngredient = event => {
+    event.persist();
+    const position = parseInt(event.target.name);
+    setInputs(inputs => {
+      return {
+        ...inputs,
+        ingredients: _.filter(
+          inputs.ingredients,
+          (_i, index) => index !== position,
+        ),
+      };
+    });
+  };
 
   return {
     inputs,
