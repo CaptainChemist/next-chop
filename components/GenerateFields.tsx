@@ -24,3 +24,22 @@ export const GenerateInput = ({
     </Col>
   </Row>
 );
+
+export const GenerateTextInput = ({
+  name,
+  value,
+  handleInputChange,
+}: InputType) => (
+  <Row>
+    <Col span={12} offset={6}>
+      <Form.Item label={`${name}`}>
+        <Input.TextArea
+          placeholder={`${name}`}
+          name={`${name}`}
+          value={value}
+          onChange={handleInputChange}
+        />
+      </Form.Item>
+    </Col>
+  </Row>
+);
