@@ -1,6 +1,10 @@
 import { Form, Row, Col, Button } from 'antd';
 import { submitForm } from '../utils/submitForm';
-import { GenerateInput, GenerateTextInput } from './GenerateFields';
+import {
+  GenerateInput,
+  GenerateTextInput,
+  GenerateDropdown,
+} from './GenerateFields';
 
 export const CreateRecipe = () => {
   const initiateCreateRecipe = () => {
@@ -8,11 +12,17 @@ export const CreateRecipe = () => {
     console.log(inputs);
   };
 
-  const { inputs, handleInputChange, handleSubmit } = submitForm(
+  const {
+    inputs,
+    handleInputChange,
+    handleDropdownChange,
+    handleSubmit,
+  } = submitForm(
     {
       title: '',
       description: '',
       content: '',
+      status: 'DRAFT',
     },
     initiateCreateRecipe,
   );
@@ -34,6 +44,11 @@ export const CreateRecipe = () => {
         handleInputChange={handleInputChange}
       />
       <Row>
+        <GenerateDropdown
+          name="status"
+          value={inputs.status}
+          handleDropdownChange={handleDropdownChange}
+        />
         <Col span={16} />
         <Col span={4}>
           <Form.Item label="Create Recipe">

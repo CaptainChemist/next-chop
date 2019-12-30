@@ -19,9 +19,18 @@ export const submitForm = (initialValues, callback) => {
     });
   };
 
+  const handleDropdownChange = event => {
+    setInputs(inputs => {
+      const newInputs = _.cloneDeep(inputs);
+      _.set(newInputs, event.item.props.title, event.key);
+      return newInputs;
+    });
+  };
+
   return {
     inputs,
     handleInputChange,
+    handleDropdownChange,
     handleSubmit,
   };
 };
