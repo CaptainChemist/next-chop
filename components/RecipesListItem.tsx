@@ -4,6 +4,7 @@ import GraphImg from 'graphcms-image';
 import { Col } from 'antd';
 import Link from 'next/link';
 import EllipsisText from 'react-ellipsis-text';
+import { LikeButton } from './LikeButton';
 
 const StyledRecipe = styled(Col)`
   ${({ theme }) => `
@@ -65,7 +66,10 @@ export const RecipeListItem = ({
         <Link href={`/${parentRoute}/${id}`}>
           <div>{images ? <GraphImg image={images} /> : null}</div>
         </Link>
-        <h3>{title}</h3>
+        <h3>
+          {title}
+          <LikeButton userLikes={userLikes} recipeId={id} />
+        </h3>
         <p>
           <EllipsisText text={description} length={110} />
         </p>

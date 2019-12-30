@@ -5,6 +5,7 @@ import GraphImg from 'graphcms-image';
 import styled from 'styled-components';
 import { generateUnit } from '../utils/generateUnit';
 import { GenerateContent } from './GenerateContent';
+import { LikeButton } from './LikeButton';
 
 const StyledOneRecipe = styled(Col)`
   ${({ theme }) => `
@@ -59,7 +60,10 @@ export const OneRecipe = ({ recipe }: { recipe: Recipe }) => {
         </Row>
         <Row>
           <Col span={20} offset={2}>
-            <h1>{recipe.title}</h1>
+            <h1>
+              {recipe.title}
+              <LikeButton userLikes={recipe.userLikes} recipeId={recipe.id} />
+            </h1>
             <p>{recipe.description}</p>
           </Col>
         </Row>
