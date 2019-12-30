@@ -4,6 +4,7 @@ import * as _ from 'lodash';
 import { Row, Col } from 'antd';
 import { RecipesList, queryEnum } from '../../components/RecipeList';
 import { useFetchUser } from '../../utils/user';
+import { Loading } from '../../components/notify/Loading';
 
 const StyledRow = styled(Row)`
   ${({ theme }) => `
@@ -20,6 +21,8 @@ const Index = () => {
   const { user, loading: isFetchUser } = useFetchUser();
   const owner = _.get(user, 'sub');
   const options = owner ? { variables: { where: { owner } } } : {};
+
+  if (isFetchUser) return <Loading />;
 
   return (
     <MainLayout title="My Recipes">
