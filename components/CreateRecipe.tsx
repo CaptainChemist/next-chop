@@ -12,6 +12,7 @@ import { useMutation } from '@apollo/react-hooks';
 import { createRecipeGraphQL } from '../graphql/mutations/createRecipe';
 import { recipesGraphQL } from '../graphql/queries/recipes';
 import { Loading } from './notify/Loading';
+import { PictureUploader } from './PictureUploader';
 
 export const CreateRecipe = () => {
   const [createRecipeMutation, { loading }] = useMutation(createRecipeGraphQL);
@@ -36,6 +37,7 @@ export const CreateRecipe = () => {
     handleDropdownChange,
     handleAddIngredient,
     handleDeleteIngredient,
+    handleSubmitImages,
     handleSubmit,
   } = submitForm(
     {
@@ -81,7 +83,11 @@ export const CreateRecipe = () => {
           value={inputs.status}
           handleDropdownChange={handleDropdownChange}
         />
-        <Col span={16} />
+        <Col span={4}>
+          <Form.Item label="Upload Image">
+            <PictureUploader handleSubmitImages={handleSubmitImages} />
+          </Form.Item>
+        </Col>
         <Col span={4}>
           <Form.Item label="Create Recipe">
             <Button disabled={loading} type="primary" htmlType="submit">

@@ -58,12 +58,22 @@ export const submitForm = (initialValues, callback) => {
     });
   };
 
+  const handleSubmitImages = images => {
+    setInputs(inputs => {
+      const newInput = _.cloneDeep(inputs);
+      _.set(newInput, 'images', images);
+      console.log(images);
+      return newInput;
+    });
+  };
+
   return {
     inputs,
     handleInputChange,
     handleDropdownChange,
     handleAddIngredient,
     handleDeleteIngredient,
+    handleSubmitImages,
     handleSubmit,
   };
 };
