@@ -1,4 +1,5 @@
 import { Form, Row, Col, Button } from 'antd';
+import * as _ from 'lodash';
 import { submitForm } from '../utils/submitForm';
 import {
   GenerateInput,
@@ -6,11 +7,27 @@ import {
   GenerateDropdown,
 } from './GenerateFields';
 import { GenerateIngredients } from './GenerateIngredients';
+import { useFetchUser } from '../utils/user';
+import { useMutation } from '@apollo/react-hooks';
+import { createRecipeGraphQL } from '../graphql/mutations/createRecipe';
+import { recipesGraphQL } from '../graphql/queries/recipes';
+import { Loading } from './notify/Loading';
 
 export const CreateRecipe = () => {
+  const [createRecipeMutation, { loading }] = useMutation(createRecipeGraphQL);
+  const { user, loading: isFetchingUser } = useFetchUser();
+  const owner = _.get(user, 'sub') || '';
+
   const initiateCreateRecipe = () => {
-    console.log('submitted Form');
-    console.log(inputs);
+    createRecipeMutation({
+      refetchQueries: [{ query: recipesGraphQL }],
+      variables: {
+        data: {
+          ...inputs,
+          owner,
+        },
+      },
+    });
   };
 
   const {
@@ -30,6 +47,9 @@ export const CreateRecipe = () => {
     },
     initiateCreateRecipe,
   );
+
+  if (isFetchingUser) return <Loading />;
+
   return (
     <Form onSubmit={handleSubmit}>
       <GenerateInput
@@ -64,7 +84,7 @@ export const CreateRecipe = () => {
         <Col span={16} />
         <Col span={4}>
           <Form.Item label="Create Recipe">
-            <Button type="primary" htmlType="submit">
+            <Button disabled={loading} type="primary" htmlType="submit">
               Create Recipe
             </Button>
           </Form.Item>
