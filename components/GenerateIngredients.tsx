@@ -42,6 +42,7 @@ export const GenerateIngredients = ({
           </Dropdown>
         ) : (
           <Input
+            value={ingredient[name]}
             placeholder={`${name}`}
             name={`ingredients[${index}].${name}`}
             onChange={handleInputChange}
