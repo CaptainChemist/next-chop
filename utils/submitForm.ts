@@ -69,6 +69,7 @@ export const submitForm = (initialValues, callback) => {
 
   return {
     inputs,
+    setInputs,
     handleInputChange,
     handleDropdownChange,
     handleAddIngredient,
