@@ -1,4 +1,4 @@
-import { useQuery } from '@apollo/react-hooks';
+import { useQuery, useMutation } from '@apollo/react-hooks';
 import * as _ from 'lodash';
 import { recipeGraphQL } from '../graphql/queries/recipe';
 import { submitForm } from '../utils/submitForm';
@@ -11,17 +11,35 @@ import {
 } from './GenerateFields';
 import { GenerateIngredients } from './GenerateIngredients';
 import { Loading } from './notify/Loading';
+import { createUpdateObj } from '../utils/createUpdateObj';
+import { updateRecipeGraphQL } from '../graphql/mutations/updateRecipe';
 
 export const UpdateRecipe = ({ id }) => {
   const { loading: isQueryLoading, data, error } = useQuery(recipeGraphQL, {
     variables: { where: { id } },
   });
+  const [updateRecipeMutation, { loading: updateRecipeLoading }] = useMutation(
+    updateRecipeGraphQL,
+  );
 
   const [recipeState, setRecipeState] = useState({ isQueryLoading });
 
   console.log(isQueryLoading, data, error);
 
-  const initiateUpdateRecipe = () => {};
+  const initiateUpdateRecipe = () => {
+    console.log('submitted update');
+    const updateObj = createUpdateObj(data, inputs);
+    console.log(updateObj);
+    return updateRecipeMutation({
+      refetchQueries: [{ query: recipeGraphQL, variables: { where: { id } } }],
+      variables: {
+        data: {
+          ...updateObj,
+        },
+        where: { id },
+      },
+    });
+  };
 
   const {
     inputs,
@@ -31,7 +49,7 @@ export const UpdateRecipe = ({ id }) => {
     handleAddIngredient,
     handleDeleteIngredient,
     handleSubmitImages,
-    handleSubmit,
+    handleUpdate,
   } = submitForm(
     {
       title: '',
@@ -53,7 +71,7 @@ export const UpdateRecipe = ({ id }) => {
   if (!data) return <Loading />;
 
   return (
-    <Form onSubmit={handleSubmit}>
+    <Form onSubmit={handleUpdate}>
       <GenerateInput
         name="title"
         value={inputs.title}

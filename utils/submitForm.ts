@@ -4,6 +4,30 @@ import * as _ from 'lodash';
 export const submitForm = (initialValues, callback) => {
   const [inputs, setInputs] = useState(initialValues);
 
+  const handleUpdate = async event => {
+    if (event) event.preventDefault();
+    const updatedResult = await callback();
+    console.log('handleUpdate');
+    console.log(updatedResult);
+    const { updateRecipe } = updatedResult.data;
+    const {
+      content,
+      description,
+      status,
+      title,
+      ingredients,
+      images,
+    } = updateRecipe;
+    setInputs(() => ({
+      content,
+      description,
+      status,
+      title,
+      ingredients,
+      images,
+    }));
+  };
+
   const handleSubmit = event => {
     if (event) event.preventDefault();
     callback();
@@ -76,5 +100,6 @@ export const submitForm = (initialValues, callback) => {
     handleDeleteIngredient,
     handleSubmitImages,
     handleSubmit,
+    handleUpdate,
   };
 };
