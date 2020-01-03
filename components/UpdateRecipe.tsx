@@ -4,6 +4,7 @@ import { recipeGraphQL } from '../graphql/queries/recipe';
 import { submitForm } from '../utils/submitForm';
 import { useState } from 'react';
 import { Form, Row, Col, Button } from 'antd';
+import GraphImg from 'graphcms-image';
 import {
   GenerateInput,
   GenerateTextInput,
@@ -13,6 +14,8 @@ import { GenerateIngredients } from './GenerateIngredients';
 import { Loading } from './notify/Loading';
 import { createUpdateObj } from '../utils/createUpdateObj';
 import { updateRecipeGraphQL } from '../graphql/mutations/updateRecipe';
+import { PictureUploader } from './PictureUploader';
+import { deleteAssetGraphQL } from '../graphql/mutations/deleteAsset';
 
 export const UpdateRecipe = ({ id }) => {
   const { loading: isQueryLoading, data, error } = useQuery(recipeGraphQL, {
@@ -21,24 +24,51 @@ export const UpdateRecipe = ({ id }) => {
   const [updateRecipeMutation, { loading: updateRecipeLoading }] = useMutation(
     updateRecipeGraphQL,
   );
+  const [deleteAssetMutation, { loading: deleteAssetLoading }] = useMutation(
+    deleteAssetGraphQL,
+  );
 
-  const [recipeState, setRecipeState] = useState({ isQueryLoading });
+  const [recipeState, setRecipeState] = useState({
+    isQueryLoading,
+    isPicUploading: false,
+  });
 
   console.log(isQueryLoading, data, error);
 
-  const initiateUpdateRecipe = () => {
-    console.log('submitted update');
-    const updateObj = createUpdateObj(data, inputs);
-    console.log(updateObj);
-    return updateRecipeMutation({
-      refetchQueries: [{ query: recipeGraphQL, variables: { where: { id } } }],
-      variables: {
-        data: {
-          ...updateObj,
+  const initiateUpdateRecipe = async () => {
+    const queryImagesHandle = _.get(data, 'recipe.images.handle');
+    const inputsImagesHandle = _.get(inputs, 'images.create.handle');
+    if (
+      queryImagesHandle !== inputsImagesHandle &&
+      !_.isNil(inputsImagesHandle)
+    ) {
+      await deleteAssetMutation({
+        variables: {
+          where: {
+            handle: queryImagesHandle,
+          },
         },
-        where: { id },
-      },
-    });
+      });
+    }
+    const updateObj = createUpdateObj(data, inputs);
+    if (!_.isEmpty(updateObj)) {
+      const result = await updateRecipeMutation({
+        refetchQueries: [
+          { query: recipeGraphQL, variables: { where: { id } } },
+        ],
+        variables: {
+          data: {
+            ...updateObj,
+          },
+          where: { id },
+        },
+      });
+      const updateRecipe = _.get(result, 'data.updateRecipe');
+      return updateRecipe;
+    } else {
+      const recipe = _.get(data, 'recipe');
+      return recipe;
+    }
   };
 
   const {
@@ -66,7 +96,6 @@ export const UpdateRecipe = ({ id }) => {
     setInputs(state => ({ ...state, ...loadedRecipe }));
     setRecipeState(state => ({ ...state, isQueryLoading }));
   }
-  console.log(inputs, recipeState);
 
   if (!data) return <Loading />;
 
@@ -103,12 +132,25 @@ export const UpdateRecipe = ({ id }) => {
         />
         <Col span={4}>
           <Form.Item label="Upload Image">
-            {/* <PictureUploader handleSubmitImages={handleSubmitImages} /> */}
+            {inputs.images ? <GraphImg image={inputs.images} /> : null}
+            <PictureUploader
+              setRecipeState={setRecipeState}
+              handleSubmitImages={handleSubmitImages}
+            />
           </Form.Item>
         </Col>
         <Col span={4}>
           <Form.Item label="Action">
-            <Button disabled={isQueryLoading} type="primary" htmlType="submit">
+            <Button
+              disabled={
+                isQueryLoading ||
+                updateRecipeLoading ||
+                deleteAssetLoading ||
+                recipeState.isPicUploading
+              }
+              type="primary"
+              htmlType="submit"
+            >
               Update Recipe
             </Button>
           </Form.Item>

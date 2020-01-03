@@ -13,15 +13,22 @@ import { createRecipeGraphQL } from '../graphql/mutations/createRecipe';
 import { recipesGraphQL } from '../graphql/queries/recipes';
 import { Loading } from './notify/Loading';
 import { PictureUploader } from './PictureUploader';
+import { useState } from 'react';
 
 export const CreateRecipe = () => {
   const [createRecipeMutation, { loading }] = useMutation(createRecipeGraphQL);
   const { user, loading: isFetchingUser } = useFetchUser();
+  const [recipeState, setRecipeState] = useState({
+    isPicUploading: false,
+  });
   const owner = _.get(user, 'sub') || '';
 
   const initiateCreateRecipe = () => {
     createRecipeMutation({
-      refetchQueries: [{ query: recipesGraphQL }],
+      refetchQueries: [
+        { query: recipesGraphQL },
+        { query: recipesGraphQL, variables: { where: { owner } } },
+      ],
       variables: {
         data: {
           ...inputs,
@@ -85,12 +92,19 @@ export const CreateRecipe = () => {
         />
         <Col span={4}>
           <Form.Item label="Upload Image">
-            <PictureUploader handleSubmitImages={handleSubmitImages} />
+            <PictureUploader
+              handleSubmitImages={handleSubmitImages}
+              setRecipeState={setRecipeState}
+            />
           </Form.Item>
         </Col>
         <Col span={4}>
           <Form.Item label="Create Recipe">
-            <Button disabled={loading} type="primary" htmlType="submit">
+            <Button
+              disabled={loading || recipeState.isPicUploading}
+              type="primary"
+              htmlType="submit"
+            >
               Create Recipe
             </Button>
           </Form.Item>
