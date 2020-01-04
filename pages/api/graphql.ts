@@ -1,7 +1,10 @@
 import { GraphQLClient } from 'graphql-request';
 
 import getConfig from 'next/config';
-import { verifyNotABannedMutation } from '../../utils/verify';
+import {
+  verifyNotABannedMutation,
+  verifyUserMatches,
+} from '../../utils/verify';
 
 const { publicRuntimeConfig, serverRuntimeConfig } = getConfig();
 const {
@@ -22,6 +25,7 @@ export const graphQLClient = new GraphQLClient(graphqlEndpoint, {
 async function proxyGraphql(req, res) {
   try {
     await verifyNotABannedMutation(req, res);
+    await verifyUserMatches(req, res);
     const { variables, query } = req.body;
 
     const data = await graphQLClient.rawRequest(query, variables);
