@@ -4,6 +4,7 @@ import getConfig from 'next/config';
 import {
   verifyNotABannedMutation,
   verifyUserMatches,
+  verifyUserPermissions,
 } from '../../utils/verify';
 
 const { publicRuntimeConfig, serverRuntimeConfig } = getConfig();
@@ -26,6 +27,8 @@ async function proxyGraphql(req, res) {
   try {
     await verifyNotABannedMutation(req, res);
     await verifyUserMatches(req, res);
+    await verifyUserPermissions(req, res);
+
     const { variables, query } = req.body;
 
     const data = await graphQLClient.rawRequest(query, variables);
