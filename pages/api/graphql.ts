@@ -4,7 +4,7 @@ import getConfig from 'next/config';
 
 const { publicRuntimeConfig, serverRuntimeConfig } = getConfig();
 const {
-  graphcms: { GRAPHCMSURL, GRAPHCMSID },
+  graphcms: { GRAPHCMSURL, GRAPHCMSID, GRAPHCMSTOKEN },
 } = serverRuntimeConfig;
 const {
   graphcms: { BRANCH },
@@ -12,13 +12,15 @@ const {
 
 const graphqlEndpoint = `${GRAPHCMSURL}/${GRAPHCMSID}/${BRANCH}`;
 
-export const graphQLClient = new GraphQLClient(graphqlEndpoint, {});
+export const graphQLClient = new GraphQLClient(graphqlEndpoint, {
+  headers: {
+    authorization: `Bearer ${GRAPHCMSTOKEN}`,
+  },
+});
 
 async function proxyGraphql(req, res) {
   try {
-    console.log('in the proxy');
     const { variables, query } = req.body;
-    console.log(variables, query);
 
     const data = await graphQLClient.rawRequest(query, variables);
     res.json(data);

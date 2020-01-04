@@ -17,6 +17,7 @@ const {
   postLogoutRedirectUri,
   cookieSecret,
   BACKEND_URL,
+  GRAPHCMSTOKEN,
 } = process.env;
 
 module.exports = withCSS({
@@ -34,6 +35,7 @@ module.exports = withCSS({
     graphcms: {
       GRAPHCMSID,
       GRAPHCMSURL,
+      GRAPHCMSTOKEN,
     },
     auth: {
       domain,
