@@ -36,7 +36,7 @@ export const PictureUploader = ({
 
       if (info.file.status === 'done') {
         const { size, type, filename } = info.file.response;
-        console.log(size, type, filename);
+        // console.log(size, type, filename);
         var img = new Image();
         img.onload = function() {
           const height = _.get(this, 'naturalHeight');
@@ -63,7 +63,6 @@ export const PictureUploader = ({
     },
   };
 
-  console.log(APIURL, APIKEY, PROJECTID, BRANCH, CDNBASE);
   return (
     <Upload {...uploadProps}>
       <Button>

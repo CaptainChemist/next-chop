@@ -1,5 +1,6 @@
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import * as _ from 'lodash';
+import Router from 'next/router';
 import { recipeGraphQL } from '../graphql/queries/recipe';
 import { submitForm } from '../utils/submitForm';
 import { useState } from 'react';
@@ -17,8 +18,11 @@ import { updateRecipeGraphQL } from '../graphql/mutations/updateRecipe';
 import { PictureUploader } from './PictureUploader';
 import { deleteAssetGraphQL } from '../graphql/mutations/deleteAsset';
 import { DeleteButton } from './DeleteButton';
+import { useFetchUser } from '../utils/user';
 
 export const UpdateRecipe = ({ id }) => {
+  const { user, loading: isFetchUser } = useFetchUser();
+
   const { loading: isQueryLoading, data, error } = useQuery(recipeGraphQL, {
     variables: { where: { id } },
   });
@@ -33,8 +37,6 @@ export const UpdateRecipe = ({ id }) => {
     isQueryLoading,
     isPicUploading: false,
   });
-
-  console.log(isQueryLoading, data, error);
 
   const initiateUpdateRecipe = async () => {
     const queryImagesHandle = _.get(data, 'recipe.images.handle');
@@ -98,7 +100,12 @@ export const UpdateRecipe = ({ id }) => {
     setRecipeState(state => ({ ...state, isQueryLoading }));
   }
 
-  if (!data) return <Loading />;
+  if (!data || isFetchUser) return <Loading />;
+  const owner = _.get(user, 'sub') || '';
+  const recipeOwner = _.get(data, 'recipe.owner') || '';
+  if (!user || owner !== recipeOwner) {
+    Router.push('/');
+  }
 
   const disabled =
     isQueryLoading ||

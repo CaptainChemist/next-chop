@@ -76,7 +76,6 @@ export const submitForm = (initialValues, callback) => {
     setInputs(inputs => {
       const newInput = _.cloneDeep(inputs);
       _.set(newInput, 'images', images);
-      console.log(images);
       return newInput;
     });
   };

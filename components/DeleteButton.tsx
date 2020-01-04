@@ -23,7 +23,6 @@ export const DeleteButton = ({
   const [isModalVisible, setModalVisibility] = useState(false);
 
   const handleOk = async () => {
-    console.log('executed mutation');
     if (!deleteRecipeLoading) {
       await deleteRecipeMutation({
         variables: {
