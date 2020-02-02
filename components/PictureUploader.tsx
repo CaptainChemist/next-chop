@@ -1,16 +1,6 @@
-import getConfig from 'next/config';
 import * as _ from 'lodash';
 import { Upload, Button, Icon } from 'antd';
 import { Dispatch, SetStateAction } from 'react';
-
-const { publicRuntimeConfig } = getConfig();
-const {
-  APIURL,
-  APIKEY,
-  PROJECTID,
-  BRANCH,
-  CDNBASE,
-} = publicRuntimeConfig.graphcms;
 
 export const PictureUploader = ({
   handleSubmitImages,
@@ -27,7 +17,7 @@ export const PictureUploader = ({
   const uploadProps = {
     name: 'file',
     action: file =>
-      `${APIURL}?key=${APIKEY}&path=/${PROJECTID}-${BRANCH}/${file.name}`,
+      `${process.env.APIURL}?key=${process.env.APIKEY}&path=/${process.env.PROJECTID}-${process.env.BRANCH}/${file.name}`,
     data: file => ({ fileUpload: file }),
     onChange: async info => {
       if (info.file.status === 'uploading') {
@@ -46,7 +36,10 @@ export const PictureUploader = ({
               size,
               mimeType: type,
               fileName: filename,
-              handle: _.get(info, 'file.response.url').replace(CDNBASE, ''),
+              handle: _.get(info, 'file.response.url').replace(
+                process.env.CDNBASE,
+                '',
+              ),
               status: 'PUBLISHED',
               height,
               width,

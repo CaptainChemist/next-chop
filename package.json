@@ -7,7 +7,9 @@
     "dev": "next dev",
     "start": "next",
     "build": "next build",
-    "generate": "gql-gen --config codegen.yml --require dotenv/config"
+    "generate": "gql-gen --config codegen.yml --require dotenv/config",
+    "secrets:add": "./scripts/now_secret_save.sh next_chop",
+    "secrets:delete": "./scripts/now_secret_delete.sh next_chop"
   },
   "keywords": [],
   "author": "",

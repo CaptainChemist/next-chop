@@ -1,25 +1,16 @@
 import { GraphQLClient } from 'graphql-request';
 
-import getConfig from 'next/config';
 import {
   verifyNotABannedMutation,
   verifyUserMatches,
   verifyUserPermissions,
 } from '../../utils/verify';
 
-const { publicRuntimeConfig, serverRuntimeConfig } = getConfig();
-const {
-  graphcms: { GRAPHCMSURL, GRAPHCMSID, GRAPHCMSTOKEN },
-} = serverRuntimeConfig;
-const {
-  graphcms: { BRANCH },
-} = publicRuntimeConfig;
-
-const graphqlEndpoint = `${GRAPHCMSURL}/${GRAPHCMSID}/${BRANCH}`;
+const graphqlEndpoint = `${process.env.GRAPHCMSURL}/${process.env.GRAPHCMSID}/${process.env.BRANCH}`;
 
 export const graphQLClient = new GraphQLClient(graphqlEndpoint, {
   headers: {
-    authorization: `Bearer ${GRAPHCMSTOKEN}`,
+    authorization: `Bearer ${process.env.GRAPHCMSTOKEN}`,
   },
 });
 

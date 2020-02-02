@@ -5,12 +5,6 @@ import { ApolloClient } from 'apollo-client';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { HttpLink } from 'apollo-link-http';
 import fetch from 'isomorphic-unfetch';
-import getConfig from 'next/config';
-
-const { publicRuntimeConfig } = getConfig();
-const {
-  backend: { BACKEND_URL },
-} = publicRuntimeConfig;
 
 let apolloClient = null;
 
@@ -134,7 +128,7 @@ function createApolloClient(initialState = {}) {
   return new ApolloClient({
     ssrMode: typeof window === 'undefined', // Disables forceFetch on the server (so queries are only run once)
     link: new HttpLink({
-      uri: BACKEND_URL,
+      uri: process.env.BACKEND_URL,
       credentials: 'same-origin', // Additional fetch() options like `credentials` or `headers`
       fetch,
     }),
