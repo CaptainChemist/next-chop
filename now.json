@@ -1,0 +1,30 @@
+{
+  "version": 2,
+  "build": {
+    "env": {
+      "BACKEND_URL": "@next_chop_backend_url",
+      "APIURL": "@next_chop_apiurl",
+      "APIKEY": "@next_chop_apikey",
+      "PROJECTID": "@next_chop_projectid",
+      "BRANCH": "@next_chop_branch",
+      "CDNBASE": "@next_chop_cdnbase"
+    }
+  },
+  "env": {
+    "GRAPHCMSID": "@next_chop_graphcmsid",
+    "GRAPHCMSURL": "@next_chop_graphcmsurl",
+    "APIURL": "@next_chop_apiurl",
+    "APIKEY": "@next_chop_apikey",
+    "PROJECTID": "@next_chop_projectid",
+    "BRANCH": "@next_chop_branch",
+    "CDNBASE": "@next_chop_cdnbase",
+    "domain": "@next_chop_domain",
+    "clientId": "@next_chop_clientid",
+    "clientSecret": "@next_chop_clientsecret",
+    "redirectUri": "@next_chop_redirecturi",
+    "postLogoutRedirectUri": "@next_chop_postlogoutredirecturi",
+    "cookieSecret": "@next_chop_cookiesecret",
+    "BACKEND_URL": "@next_chop_backend_url",
+    "GRAPHCMSTOKEN": "@next_chop_graphcmstoken"
+  }
+}
