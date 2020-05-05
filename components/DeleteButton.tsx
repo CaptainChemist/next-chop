@@ -23,18 +23,18 @@ export const DeleteButton = ({
   const [isModalVisible, setModalVisibility] = useState(false);
 
   const handleOk = async () => {
-    if (!deleteRecipeLoading) {
-      await deleteRecipeMutation({
-        variables: {
-          where: { id },
-        },
-      });
-    }
-
     if (imageId && !deleteAssetLoading) {
       await deleteAssetMutation({
         variables: {
           where: { id: imageId },
+        },
+      });
+    }
+
+    if (!deleteRecipeLoading) {
+      await deleteRecipeMutation({
+        variables: {
+          where: { id },
         },
       });
     }

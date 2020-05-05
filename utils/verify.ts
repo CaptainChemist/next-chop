@@ -43,7 +43,7 @@ export const verifyUserPermissions = async (req, res) => {
     {
       match: /deleteAsset/g,
       queryToCheck: print(recipesGraphQL),
-      vars: { where: { images: { handle: _.get(variables, 'where.handle') } } },
+      vars: { where: { images: { id: _.get(variables, 'where.id') } } },
       path: 'recipes[0].owner',
     },
     {

@@ -6,11 +6,7 @@ import { submitForm } from '../utils/submitForm';
 import { useState } from 'react';
 import { Form, Row, Col, Button } from 'antd';
 import GraphImg from 'graphcms-image';
-import {
-  GenerateInput,
-  GenerateTextInput,
-  GenerateDropdown,
-} from './GenerateFields';
+import { GenerateInput, GenerateTextInput } from './GenerateFields';
 import { GenerateIngredients } from './GenerateIngredients';
 import { Loading } from './notify/Loading';
 import { createUpdateObj } from '../utils/createUpdateObj';
@@ -40,6 +36,7 @@ export const UpdateRecipe = ({ id }) => {
 
   const initiateUpdateRecipe = async () => {
     const queryImagesHandle = _.get(data, 'recipe.images.handle');
+    const queryImagesId = _.get(data, 'recipe.images.id');
     const inputsImagesHandle = _.get(inputs, 'images.create.handle');
     if (
       queryImagesHandle !== inputsImagesHandle &&
@@ -48,7 +45,7 @@ export const UpdateRecipe = ({ id }) => {
       await deleteAssetMutation({
         variables: {
           where: {
-            handle: queryImagesHandle,
+            id: queryImagesId,
           },
         },
       });
@@ -88,7 +85,6 @@ export const UpdateRecipe = ({ id }) => {
       title: '',
       description: '',
       content: '',
-      status: 'DRAFT',
       ingredients: [],
     },
     initiateUpdateRecipe,
@@ -139,12 +135,7 @@ export const UpdateRecipe = ({ id }) => {
         handleInputChange={handleInputChange}
       />
       <Row>
-        <GenerateDropdown
-          name="status"
-          value={inputs.status}
-          handleDropdownChange={handleDropdownChange}
-        />
-        <Col span={4}>
+        <Col offset={10} span={4}>
           <Form.Item label="Upload Image">
             {inputs.images ? <GraphImg image={inputs.images} /> : null}
             <PictureUploader

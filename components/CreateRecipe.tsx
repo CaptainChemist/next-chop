@@ -1,11 +1,7 @@
 import { Form, Row, Col, Button } from 'antd';
 import * as _ from 'lodash';
 import { submitForm } from '../utils/submitForm';
-import {
-  GenerateInput,
-  GenerateTextInput,
-  GenerateDropdown,
-} from './GenerateFields';
+import { GenerateInput, GenerateTextInput } from './GenerateFields';
 import { GenerateIngredients } from './GenerateIngredients';
 import { useFetchUser } from '../utils/user';
 import { useMutation } from '@apollo/react-hooks';
@@ -14,6 +10,7 @@ import { recipesGraphQL } from '../graphql/queries/recipes';
 import { Loading } from './notify/Loading';
 import { PictureUploader } from './PictureUploader';
 import { useState } from 'react';
+import Router from 'next/router';
 
 export const CreateRecipe = () => {
   const [createRecipeMutation, { loading }] = useMutation(createRecipeGraphQL);
@@ -36,6 +33,7 @@ export const CreateRecipe = () => {
         },
       },
     });
+    Router.replace('/my-recipes');
   };
 
   const {
@@ -51,7 +49,6 @@ export const CreateRecipe = () => {
       title: '',
       description: '',
       content: '',
-      status: 'DRAFT',
       ingredients: [],
     },
     initiateCreateRecipe,
@@ -85,12 +82,7 @@ export const CreateRecipe = () => {
         handleInputChange={handleInputChange}
       />
       <Row>
-        <GenerateDropdown
-          name="status"
-          value={inputs.status}
-          handleDropdownChange={handleDropdownChange}
-        />
-        <Col span={4}>
+        <Col offset={10} span={4}>
           <Form.Item label="Upload Image">
             <PictureUploader
               handleSubmitImages={handleSubmitImages}

@@ -4,7 +4,6 @@ export const recipesGraphQL = gql`
   query recipesGraphQL($where: RecipeWhereInput) {
     recipes(where: $where) {
       id
-      status
       title
       content
       description

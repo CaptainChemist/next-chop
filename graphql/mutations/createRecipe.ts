@@ -4,7 +4,6 @@ export const createRecipeGraphQL = gql`
   mutation createRecipeGraphQL($data: RecipeCreateInput!) {
     createRecipe(data: $data) {
       id
-      status
       title
       content
       description
