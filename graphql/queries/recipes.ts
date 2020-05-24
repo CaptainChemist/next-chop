@@ -1,7 +1,7 @@
 import gql from 'graphql-tag';
 
 export const recipesGraphQL = gql`
-  query recipesGraphQL($where: RecipeWhereInput) {
+  query($where: RecipeWhereInput) {
     recipes(where: $where) {
       id
       title

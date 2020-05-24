@@ -1,7 +1,7 @@
 import gql from 'graphql-tag';
 
 export const createRecipeGraphQL = gql`
-  mutation createRecipeGraphQL($data: RecipeCreateInput!) {
+  mutation($data: RecipeCreateInput!) {
     createRecipe(data: $data) {
       id
       title

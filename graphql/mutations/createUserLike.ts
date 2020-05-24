@@ -1,7 +1,7 @@
 import gql from 'graphql-tag';
 
 export const createUserLikeGraphQL = gql`
-  mutation createUserLikeGraphQL($data: UserLikeCreateInput!) {
+  mutation($data: UserLikeCreateInput!) {
     createUserLike(data: $data) {
       id
       user

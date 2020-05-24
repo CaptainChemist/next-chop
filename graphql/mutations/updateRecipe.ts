@@ -1,7 +1,7 @@
 import gql from 'graphql-tag';
 
 export const updateRecipeGraphQL = gql`
-  mutation updateRecipeGraphQL($data: RecipeUpdateInput!, $where: RecipeWhereUniqueInput!) {
+  mutation($data: RecipeUpdateInput!, $where: RecipeWhereUniqueInput!) {
     updateRecipe(data: $data, where: $where) {
       id
       title
