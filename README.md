@@ -2,6 +2,12 @@
 
 ![Next Chop Logo](./public/favicon/apple-touch-icon.png)
 
+## Update 06/21/2020
+
+This repo has been deprecated in favor of `Version 2.0` of this repo which has support for GraphCMS 2.0 and the migration of Zeit to Vercel. Please access the current version of this repo here:
+
+[https://github.com/CaptainChemist/next-chop-v2](https://github.com/CaptainChemist/next-chop-v2)
+
 ## Frontend Serverless with React and GraphQL
 
 In this repo we build a serverless recipe sharing application in React using Next.js. This is the code that we build in the [Frontend Serverless with React and GraphQL](https://courses.codemochi.com/frontend-serverless-with-react-and-graphql/) course at [Codemochi](https://codemochi.com).

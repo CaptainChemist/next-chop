@@ -40,7 +40,6 @@ export const PictureUploader = ({
                 process.env.CDNBASE,
                 '',
               ),
-              status: 'PUBLISHED',
               height,
               width,
             },

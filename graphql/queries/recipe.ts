@@ -1,10 +1,9 @@
 import gql from 'graphql-tag';
 
 export const recipeGraphQL = gql`
-  query recipeGraphQL($where: RecipeWhereUniqueInput!) {
+  query($where: RecipeWhereUniqueInput!) {
     recipe(where: $where) {
       id
-      status
       title
       content
       description

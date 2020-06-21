@@ -7,11 +7,10 @@ export const submitForm = (initialValues, callback) => {
   const handleUpdate = async event => {
     if (event) event.preventDefault();
     const recipe = await callback();
-    const { content, description, status, title, ingredients, images } = recipe;
+    const { content, description, title, ingredients, images } = recipe;
     setInputs(() => ({
       content,
       description,
-      status,
       title,
       ingredients,
       images,

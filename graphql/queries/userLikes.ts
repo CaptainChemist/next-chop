@@ -1,13 +1,12 @@
 import gql from 'graphql-tag';
 
 export const userLikesGraphQL = gql`
-  query userLikesGraphQL($where: UserLikeWhereInput) {
+  query($where: UserLikeWhereInput) {
     userLikes(where: $where) {
       id
       user
       recipe {
         id
-        status
         title
         content
         description
